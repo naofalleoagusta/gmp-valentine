@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Be My Valentine? 💝</title>
+    <style>
+      /* Base styles remain the same */
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(45deg, #ffe6ea, #ffb6c1);
+        font-family: "Arial", sans-serif;
+        overflow: hidden;
+      }
+
+      .container {
+        text-align: center;
+        z-index: 1;
+      }
+
+      .hearts-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .heart:nth-child(odd) {
+        width: 21px;
+        height: 21px;
+      }
+
+      .heart:nth-child(even) {
+        width: 24px;
+        height: 24px;
+      }
+
+      .heart {
+        position: absolute;
+        background: url("assets/bby.jpeg") center/cover;
+        opacity: 0.3;
+        clip-path: path(
+          "M12,21.35 L10.55,20.03 C5.4,15.36 2,12.27 2,8.5 C2,5.41 4.42,3 7.5,3 C9.24,3 10.91,3.81 12,5.08 C13.09,3.81 14.76,3 16.5,3 C19.58,3 22,5.41 22,8.5 C22,12.27 18.6,15.36 13.45,20.03 L12,21.35 Z"
+        );
+        transform-origin: center;
+        transform: scale(2);
+      }
+
+      /* Updated heart positions with better spread */
+      .heart-1 {
+        left: 5%;
+        top: 1%;
+      }
+      .heart-2 {
+        left: 25%;
+        top: 8%;
+      }
+      .heart-3 {
+        left: 50%;
+        top: 10%;
+      }
+      .heart-4 {
+        left: 65%;
+        top: 3%;
+      }
+      .heart-5 {
+        left: 85%;
+        top: 6%;
+      }
+
+      .heart-6 {
+        left: 15%;
+        top: 28%;
+      }
+      .heart-7 {
+        left: 35%;
+        top: 23%;
+      }
+      .heart-8 {
+        left: 55%;
+        top: 25%;
+      }
+      .heart-9 {
+        left: 75%;
+        top: 33%;
+      }
+
+      .heart-10 {
+        left: 5%;
+        top: 52%;
+      }
+      .heart-11 {
+        left: 25%;
+        top: 56%;
+      }
+      .heart-12 {
+        left: 45%;
+        top: 52%;
+      }
+      .heart-13 {
+        left: 65%;
+        top: 56%;
+      }
+      .heart-14 {
+        left: 85%;
+        top: 52%;
+      }
+
+      .heart-15 {
+        left: 45%;
+        top: 75%;
+      }
+
+      .button-container {
+        margin-top: 20px;
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .btn {
+        padding: 15px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      #yesBtn {
+        background-color: #ff6b9d;
+        color: white;
+      }
+
+      #noBtn {
+        background-color: #ff9eb5;
+        color: white;
+      }
+
+      .success {
+        display: none;
+        text-align: center;
+      }
+
+      .success h1 {
+        color: #ff6b9d;
+        font-size: 48px;
+        margin-bottom: 20px;
+      }
+
+      .cat-gif {
+        width: 300px;
+        height: 200px;
+        background: url("/api/placeholder/300/200") center/cover;
+        border-radius: 10px;
+        margin: 20px auto;
+      }
+
+      /* Slowed down animations */
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(0deg) scale(6);
+        }
+        50% {
+          transform: translateY(-30px) rotate(8deg) scale(6);
+        }
+        100% {
+          transform: translateY(0) rotate(0deg) scale(6);
+        }
+      }
+
+      @keyframes heartbeat {
+        0% {
+          transform: scale(6);
+        }
+        50% {
+          transform: scale(6.3);
+        }
+        100% {
+          transform: scale(6);
+        }
+      }
+
+      .heart {
+        animation: float 8s ease-in-out infinite,
+          heartbeat 4s ease-in-out infinite;
+      }
+
+      /* Staggered animation delays */
+      .heart:nth-child(3n) {
+        animation-delay: 0s, 0s;
+      }
+      .heart:nth-child(3n + 1) {
+        animation-delay: 2s, 1s;
+      }
+      .heart:nth-child(3n + 2) {
+        animation-delay: 4s, 2s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hearts-bg" id="heartsBg">
+      <div class="heart heart-1"></div>
+      <div class="heart heart-2"></div>
+      <div class="heart heart-3"></div>
+      <div class="heart heart-4"></div>
+      <div class="heart heart-5"></div>
+      <div class="heart heart-6"></div>
+      <div class="heart heart-7"></div>
+      <div class="heart heart-8"></div>
+      <div class="heart heart-9"></div>
+      <div class="heart heart-10"></div>
+      <div class="heart heart-11"></div>
+      <div class="heart heart-12"></div>
+      <div class="heart heart-13"></div>
+      <div class="heart heart-14"></div>
+      <div class="heart heart-15"></div>
+    </div>
+
+    <div class="container" id="questionContainer">
+      <h1 style="color: #ff6b9d; font-size: 48px; margin-bottom: 40px">
+        Will you be my Valentine? 💝
+      </h1>
+
+      <div class="button-container">
+        <button id="yesBtn" class="btn">Yes</button>
+        <button id="noBtn" class="btn">No</button>
+      </div>
+    </div>
+
+    <div class="success" id="successContainer">
+      <h1>Yay! ❤️</h1>
+      <div class="cat-gif"></div>
+    </div>
+
+    <script>
+      const yesBtn = document.getElementById("yesBtn");
+      const noBtn = document.getElementById("noBtn");
+      const questionContainer = document.getElementById("questionContainer");
+      const successContainer = document.getElementById("successContainer");
+
+      let noClickCount = 0;
+      let yesBtnSize = 18;
+
+      const messages = [
+        "Are you sure?",
+        "Bbyy please :(",
+        "Don't do this to me :(",
+        "You are breaking my heart </3",
+      ];
+
+      noBtn.addEventListener("click", () => {
+        if (noClickCount < messages.length) {
+          noBtn.textContent = messages[noClickCount];
+          yesBtnSize += 8;
+          yesBtn.style.fontSize = yesBtnSize + "px";
+          yesBtn.style.padding = yesBtnSize / 2 + "px " + yesBtnSize + "px";
+          noClickCount++;
+        } else {
+          // Make Yes button fill the screen
+          yesBtn.style.position = "fixed";
+          yesBtn.style.width = "100vw";
+          yesBtn.style.height = "100vh";
+          yesBtn.style.fontSize = "72px";
+          noBtn.style.display = "none";
+        }
+      });
+
+      yesBtn.addEventListener("click", () => {
+        questionContainer.style.display = "none";
+        successContainer.style.display = "block";
+      });
+    </script>
+  </body>
+</html>
