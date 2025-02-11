@@ -3,7 +3,6 @@
   <head>
     <title>Be My Valentine? 💝</title>
     <style>
-      /* Base styles remain the same */
       body {
         margin: 0;
         min-height: 100vh;
@@ -31,25 +30,15 @@
         z-index: 0;
       }
 
-      .heart:nth-child(odd) {
-        width: 21px;
-        height: 21px;
-      }
-
-      .heart:nth-child(even) {
-        width: 24px;
-        height: 24px;
-      }
-
       .heart {
         position: absolute;
-        background: url("assets/bby.jpeg") center/cover;
+        width: 120px;
+        height: 120px;
+        background: url("/assets/bby.jpeg") center/cover;
         opacity: 0.3;
         clip-path: path(
-          "M12,21.35 L10.55,20.03 C5.4,15.36 2,12.27 2,8.5 C2,5.41 4.42,3 7.5,3 C9.24,3 10.91,3.81 12,5.08 C13.09,3.81 14.76,3 16.5,3 C19.58,3 22,5.41 22,8.5 C22,12.27 18.6,15.36 13.45,20.03 L12,21.35 Z"
+          "M60,20 A20,20,0,0,1,100,40 A20,20,0,0,1,60,80 A20,20,0,0,1,20,40 A20,20,0,0,1,60,20 Z"
         );
-        transform-origin: center;
-        transform: scale(2);
       }
 
       /* Updated heart positions with better spread */
@@ -162,47 +151,6 @@
         border-radius: 10px;
         margin: 20px auto;
       }
-
-      /* Slowed down animations */
-      @keyframes float {
-        0% {
-          transform: translateY(0) rotate(0deg) scale(6);
-        }
-        50% {
-          transform: translateY(-30px) rotate(8deg) scale(6);
-        }
-        100% {
-          transform: translateY(0) rotate(0deg) scale(6);
-        }
-      }
-
-      @keyframes heartbeat {
-        0% {
-          transform: scale(6);
-        }
-        50% {
-          transform: scale(6.3);
-        }
-        100% {
-          transform: scale(6);
-        }
-      }
-
-      .heart {
-        animation: float 8s ease-in-out infinite,
-          heartbeat 4s ease-in-out infinite;
-      }
-
-      /* Staggered animation delays */
-      .heart:nth-child(3n) {
-        animation-delay: 0s, 0s;
-      }
-      .heart:nth-child(3n + 1) {
-        animation-delay: 2s, 1s;
-      }
-      .heart:nth-child(3n + 2) {
-        animation-delay: 4s, 2s;
-      }
     </style>
   </head>
   <body>
@@ -241,6 +189,8 @@
     </div>
 
     <script>
+      // Create floating hearts background
+
       const yesBtn = document.getElementById("yesBtn");
       const noBtn = document.getElementById("noBtn");
       const questionContainer = document.getElementById("questionContainer");
@@ -277,6 +227,16 @@
         questionContainer.style.display = "none";
         successContainer.style.display = "block";
       });
+
+      // Add floating animation
+      const style = document.createElement("style");
+      style.textContent = `
+            @keyframes float {
+                0%, 100% { transform: translateY(0) rotate(0deg); }
+                50% { transform: translateY(-20px) rotate(10deg); }
+            }
+        `;
+      document.head.appendChild(style);
     </script>
   </body>
 </html>
