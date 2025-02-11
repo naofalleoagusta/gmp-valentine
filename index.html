@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Be My Valentine? 💝</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gizella, Be My Valentine? 💝</title>
     <style>
       body {
         margin: 0;
@@ -19,7 +21,7 @@
         text-align: center;
         z-index: 1;
         padding: 20px;
-        max-width: 90vw;
+        max-width: 100vw;
       }
 
       .hearts-bg {
@@ -34,10 +36,10 @@
 
       .heart {
         position: absolute;
-        width: 80vmin; /* Responsive to viewport's smaller dimension */
-        height: 80vmin;
-        max-width: 200px;
-        max-height: 200px;
+        width: 20vmin; /* Responsive to viewport's smaller dimension */
+        height: 20vmin;
+        max-width: 150px;
+        max-height: 150px;
         opacity: 0.3;
         /* Updated heart shape that uses more of the image space */
         mask-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 90C50 90 87 62 87 35C87 19 74 10 61 10C54 10 50 15 50 15C50 15 46 10 39 10C26 10 13 19 13 35C13 62 50 90 50 90Z' fill='black'/%3E%3C/svg%3E");
@@ -134,7 +136,7 @@
 
       .btn {
         padding: 15px 30px;
-        font-size: clamp(16px, 4vw, 18px);
+        font-size: 16px;
         border: none;
         border-radius: 25px;
         cursor: pointer;
@@ -158,7 +160,7 @@
 
       .success h1 {
         color: #ff6b9d;
-        font-size: clamp(32px, 6vw, 48px);
+        font-size: 48px;
         margin-bottom: 20px;
       }
 
@@ -215,21 +217,36 @@
 
       h1 {
         font-size: 48px !important;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
         color: #ff6b9d;
       }
 
-      .no-border{
-        border:0 !important;
+      .no-border {
+        border: 0 !important;
+      }
+
+      .swal2-title {
+        font-size: 30px !important;
+      }
+      .swal2-styled {
+        font-size: 16px !important;
+        padding: 16px 12px !important;
       }
     </style>
-    <script rel="preload" src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="preload" href="assets/glue_song.mp3" as="audio" type="audio/mpeg">
+    <script
+      rel="preload"
+      src="https://cdn.jsdelivr.net/npm/sweetalert2@11"
+    ></script>
+    <link
+      rel="preload"
+      href="assets/gluesong.mp3"
+      as="audio"
+      type="audio/mpeg"
+    />
   </head>
   <body>
     <audio class="song" loop>
-      <source src="./assets/glue_song.mp3">
-      </source>
+      <source src="./assets/gluesong.mp3" />
       Your browser isn't invited for super fun audio time.
     </audio>
     <div class="hearts-bg" id="heartsBg">
@@ -265,25 +282,27 @@
     </div>
 
     <script>
-      window.addEventListener('load', () => {
+      window.addEventListener("load", () => {
         Swal.fire({
-            title: 'bbyy, do you want to play music in the background?',
-            iconHtml: '<img src="/assets/cat_shy.gif" style="width:100px;height:100px;">',
-            customClass: {
-              icon: 'no-border'
-            },
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Yes',
-            cancelButtonText: 'YESSSSS!!',
+          title: "bbyy, do you want to play music in the background?",
+          iconHtml:
+            '<img src="/assets/cat_shy.gif" style="width:100px;height:100px;">',
+          customClass: {
+            icon: "no-border",
+          },
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "Yes",
+          cancelButtonText: "YESSSSS!!",
+          allowOutsideClick: false,
         }).then((result) => {
-            if (result.isConfirmed) {
-                document.querySelector('.song').play();
-                fetchData();
-            } else {
-              document.querySelector('.song').play();
-            }
+          if (result.isConfirmed) {
+            document.querySelector(".song").play();
+            fetchData();
+          } else {
+            document.querySelector(".song").play();
+          }
         });
       });
       const yesBtn = document.getElementById("yesBtn");
@@ -322,12 +341,11 @@
       yesBtn.addEventListener("click", () => {
         if (noClickCount < messages.length) {
           noBtn.textContent = messages[noClickCount];
-          yesBtnSize += 20;
+          yesBtnSize += 10;
           yesBtn.style.fontSize = yesBtnSize + "px";
           yesBtn.style.padding = yesBtnSize / 2 + "px " + yesBtnSize + "px";
           noClickCount++;
-        } 
-        else {
+        } else {
           questionContainer.style.display = "none";
           successContainer.style.display = "block";
         }
