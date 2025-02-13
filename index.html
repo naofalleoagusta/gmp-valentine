@@ -339,6 +339,20 @@
     </div>
 
     <script>
+      // Method 2: Using window.matchMedia
+      function checkDeviceType() {
+        const isMobile = window.matchMedia("(max-width: 768px)").matches;
+        const isTablet = window.matchMedia(
+          "(min-width: 769px) and (max-width: 1024px)"
+        ).matches;
+        const isDesktop = window.matchMedia("(min-width: 1025px)").matches;
+
+        return {
+          isMobile,
+          isTablet,
+          isDesktop,
+        };
+      }
       window.addEventListener("load", () => {
         Swal.fire({
           title: "bbyy, do you want to play music in the background?",
@@ -370,10 +384,21 @@
 
       const yesBtn = document.getElementById("yesBtn");
 
+      function getSpeed() {
+        const { isDesktop, isMobile, isTablet } = checkDeviceType();
+        if (isDesktop) {
+          return 2;
+        } else if (isTablet) {
+          return 4;
+        } else if (isMobile) {
+          return 6;
+        }
+      }
+
       let x = 0;
       let y = 0;
-      let xSpeed = 4;
-      let ySpeed = 4;
+      let xSpeed = getSpeed();
+      let ySpeed = getSpeed();
 
       let isAnimating = false;
       let animationFrameId = null;
