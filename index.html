@@ -146,13 +146,22 @@
       }
 
       #yesBtn {
+        position: relative;
         background-color: #ff6b9d;
         color: white;
+        animation: pulse 1.5s infinite;
       }
 
       #noBtn {
         background-color: #ff9eb5;
         color: white;
+      }
+
+      #replayBtn {
+        background-color: #ff6b9d;
+        color: white;
+
+        animation: pulse 1.5s infinite;
       }
 
       .success {
@@ -164,14 +173,6 @@
         color: #ff6b9d;
         font-size: 48px;
         margin-bottom: 20px;
-      }
-
-      .cat-gif {
-        width: min(300px, 80vw);
-        height: 200px;
-        background: url("/api/placeholder/300/200") center/cover;
-        border-radius: 10px;
-        margin: 20px auto;
       }
 
       @keyframes float {
@@ -218,8 +219,14 @@
       }
 
       h1 {
-        font-size: 48px !important;
-        margin-bottom: 20px;
+        font-size: 32px !important;
+        margin-bottom: 40px;
+        color: #ff6b9d;
+      }
+
+      h2 {
+        font-size: 24px !important;
+        margin-bottom: 40px;
         color: #ff6b9d;
       }
 
@@ -233,6 +240,49 @@
       .swal2-styled {
         font-size: 16px !important;
         padding: 16px 12px !important;
+      }
+
+      .arrow {
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 30px;
+        height: 30px;
+        animation: bounce 1.5s infinite;
+      }
+
+      .arrow::before {
+        content: "👇";
+        font-size: 24px;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 107, 157, 0.4);
+        }
+        70% {
+          box-shadow: 0 0 0 15px rgba(255, 107, 157, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(255, 107, 157, 0);
+        }
+      }
+
+      @keyframes bounce {
+        0%,
+        20%,
+        50%,
+        80%,
+        100% {
+          transform: translateX(-50%) translateY(0);
+        }
+        40% {
+          transform: translateX(-50%) translateY(-20px);
+        }
+        60% {
+          transform: translateX(-50%) translateY(-10px);
+        }
       }
     </style>
     <script
@@ -273,14 +323,19 @@
       <h1>Bby, will you be my Valentine? 💝</h1>
 
       <div class="button-container">
-        <button id="yesBtn" class="btn">Yes</button>
+        <button id="yesBtn" class="btn">
+          <div class="arrow" id="arrow"></div>
+          Yes
+        </button>
         <button id="noBtn" class="btn">No</button>
       </div>
     </div>
 
     <div class="success" id="successContainer">
-      <h1>Yay! ❤️</h1>
-      <div class="cat-gif"></div>
+      <img src="assets/pat-hug.gif" alt="cat_love" />
+      <h2>💝💘💖 Yayyyy!:3 happy valentine bbyyy 💜💗💕</h2>
+
+      <button id="replayBtn" class="btn">Click me to replay hehe</button>
     </div>
 
     <script>
@@ -311,12 +366,18 @@
         });
       });
       const yesBtn = document.getElementById("yesBtn");
+
+      const arrow = document.getElementById("arrow");
       const noBtn = document.getElementById("noBtn");
+      const replayBtn = document.getElementById("replayBtn");
       const questionContainer = document.getElementById("questionContainer");
       const successContainer = document.getElementById("successContainer");
 
       let noClickCount = 0;
+      let yesClickCount = 0;
       let yesBtnSize = 18;
+
+      let arrowTopPosition = -40;
 
       const messages = [
         "Are you sure?",
@@ -329,8 +390,10 @@
         if (noClickCount < messages.length) {
           noBtn.textContent = messages[noClickCount];
           yesBtnSize += 20;
+          arrowTopPosition -= 20;
           yesBtn.style.fontSize = yesBtnSize + "px";
           yesBtn.style.padding = yesBtnSize / 2 + "px " + yesBtnSize + "px";
+          arrow.style.top = arrowTopPosition + "px";
           noClickCount++;
         } else {
           // Make Yes button fill the screen
@@ -344,16 +407,43 @@
       });
 
       yesBtn.addEventListener("click", () => {
-        if (noClickCount < messages.length) {
-          noBtn.textContent = messages[noClickCount];
-          yesBtnSize += 10;
-          yesBtn.style.fontSize = yesBtnSize + "px";
-          yesBtn.style.padding = yesBtnSize / 2 + "px " + yesBtnSize + "px";
-          noClickCount++;
+        if (yesClickCount < messages.length) {
+          if (noClickCount < messages.length) {
+            noBtn.textContent = messages[noClickCount];
+            yesBtnSize += 10;
+            yesBtn.style.fontSize = yesBtnSize + "px";
+            yesBtn.style.padding = yesBtnSize / 2 + "px " + yesBtnSize + "px";
+            noClickCount++;
+          } else {
+            questionContainer.style.display = "none";
+            successContainer.style.display = "block";
+            successContainer.style.zIndex = 1;
+          }
         } else {
           questionContainer.style.display = "none";
           successContainer.style.display = "block";
+          successContainer.style.zIndex = 1;
         }
+      });
+
+      replayBtn.addEventListener("click", () => {
+        questionContainer.style.display = "block";
+        successContainer.style.display = "none";
+        successContainer.style.zIndex = 1;
+        yesBtnSize = 18;
+        arrowTopPosition = -40;
+        yesBtn.style.fontSize = "";
+        yesBtn.style.padding = "";
+
+        yesBtn.style.position = "";
+        yesBtn.style.width = "";
+        yesBtn.style.height = "";
+        noBtn.style.display = "";
+        yesBtn.style.top = "";
+        arrow.style.top = "";
+        noClickCount = 0;
+
+        noBtn.textContent = "No";
       });
       document.addEventListener("visibilitychange", () => {
         if (document.hidden) {
