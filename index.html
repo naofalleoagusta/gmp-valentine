@@ -444,23 +444,36 @@
       noBtn.addEventListener("click", () => {
         if (noClickCount < messages.length) {
           noBtn.textContent = messages[noClickCount];
-          yesBtnSize += 20;
-          arrowTopPosition -= 20;
-          yesBtn.style.fontSize = yesBtnSize + "px";
-          yesBtn.style.padding = yesBtnSize / 2 + "px " + yesBtnSize + "px";
-          arrow.style.top = arrowTopPosition + "px";
+          if (yesClickCount < 5) {
+            yesBtnSize += 20;
+            arrowTopPosition -= 20;
+            yesBtn.style.fontSize = yesBtnSize + "px";
+            yesBtn.style.padding = yesBtnSize / 2 + "px " + yesBtnSize + "px";
+            arrow.style.top = arrowTopPosition + "px";
+          } else {
+            arrow.style.top = "";
+            yesBtn.style.fontSize = "";
+            yesBtn.style.padding = "";
+          }
           noClickCount++;
         } else {
-          stopAnimation();
-          // Make Yes button fill the screen
-          yesBtn.style.position = "absolute";
-          yesBtn.style.width = "100vw";
-          yesBtn.style.height = "100vh";
-          yesBtn.style.fontSize = "72px";
-          noBtn.style.display = "none";
-          yesBtn.style.top = "0";
-          yesBtn.style.left = "0";
-          yesBtn.style.transform = "";
+          if (yesClickCount < 5) {
+            stopAnimation();
+            // Make Yes button fill the screen
+            yesBtn.style.position = "absolute";
+            yesBtn.style.width = "100vw";
+            yesBtn.style.height = "100vh";
+            yesBtn.style.fontSize = "72px";
+            noBtn.style.display = "none";
+            yesBtn.style.top = "0";
+            yesBtn.style.left = "0";
+            yesBtn.style.transform = "";
+          } else {
+            noBtn.textContent = "Please click the yes button 😝";
+            arrow.style.top = "";
+            yesBtn.style.fontSize = "";
+            yesBtn.style.padding = "";
+          }
         }
       });
 
@@ -489,6 +502,9 @@
               yesBtn.style.top = yYesBtn;
               yesBtn.style.left = xYesBtn;
             } else {
+              arrow.style.top = "";
+              yesBtn.style.fontSize = "";
+              yesBtn.style.padding = "";
               animate();
             }
             yesClickCount++;
