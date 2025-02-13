@@ -365,7 +365,50 @@
           }
         });
       });
+
+      const container = document.getElementById("container");
+
       const yesBtn = document.getElementById("yesBtn");
+
+      let x = 0;
+      let y = 0;
+      let xSpeed = 2;
+      let ySpeed = 2;
+
+      let isAnimating = false;
+      let animationFrameId = null;
+
+      function animate() {
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const dvdRect = yesBtn.getBoundingClientRect();
+
+        // Update position
+        x += xSpeed;
+        y += ySpeed;
+
+        // Check for collision with right/left walls
+        if (x + dvdRect.width > windowWidth || x < 0) {
+          xSpeed = -xSpeed;
+        }
+
+        // Check for collision with top/bottom walls
+        if (y + dvdRect.height > windowHeight || y < 0) {
+          ySpeed = -ySpeed;
+        }
+
+        // Keep DVD within bounds
+        x = Math.max(0, Math.min(x, windowWidth - dvdRect.width));
+        y = Math.max(0, Math.min(y, windowHeight - dvdRect.height));
+
+        // Apply new position
+        yesBtn.style.left = x + "px";
+        yesBtn.style.top = y + "px";
+
+        if (isAnimating) {
+          animationFrameId = requestAnimationFrame(animate);
+        }
+      }
 
       const arrow = document.getElementById("arrow");
       const noBtn = document.getElementById("noBtn");
@@ -391,6 +434,13 @@
         "You are breaking my heart </3",
       ];
 
+      function stopAnimation() {
+        isAnimating = false;
+        if (animationFrameId) {
+          cancelAnimationFrame(animationFrameId);
+        }
+      }
+
       noBtn.addEventListener("click", () => {
         if (noClickCount < messages.length) {
           noBtn.textContent = messages[noClickCount];
@@ -401,37 +451,49 @@
           arrow.style.top = arrowTopPosition + "px";
           noClickCount++;
         } else {
+          stopAnimation();
           // Make Yes button fill the screen
-          yesBtn.style.position = "fixed";
+          yesBtn.style.position = "absolute";
           yesBtn.style.width = "100vw";
           yesBtn.style.height = "100vh";
           yesBtn.style.fontSize = "72px";
           noBtn.style.display = "none";
           yesBtn.style.top = "0";
+          yesBtn.style.left = "0";
+          yesBtn.style.transform = "";
         }
       });
 
-      yesBtn.addEventListener("click", () => {
-        if (yesClickCount < messages.length) {
+      yesBtn.addEventListener("click", (e) => {
+        if (yesClickCount < 6) {
           if (noClickCount < messages.length) {
             if (yesClickCount < 1) {
               buttonContainer.appendChild(para);
               buttonContainer.style.flexDirection = "row-reverse";
             }
+            if (yesClickCount < 5) {
+              isAnimating = true;
+              yesBtn.style.position = "absolute";
+              const yYesBtn =
+                ((Math.random() * (window.innerHeight - 80)) /
+                  window.innerHeight) *
+                  100 +
+                "%";
 
-            yesBtn.style.position = "fixed";
-            yesBtn.style.top =
-              ((Math.random() * (window.innerHeight - 80)) /
-                window.innerHeight) *
-                100 +
-              "%";
+              const xYesBtn =
+                ((Math.random() * (window.innerWidth - 86)) /
+                  window.innerWidth) *
+                  100 +
+                "%";
 
-            yesBtn.style.left =
-              ((Math.random() * (window.innerWidth - 86)) / window.innerWidth) *
-                100 +
-              "%";
+              yesBtn.style.top = yYesBtn;
+              yesBtn.style.left = xYesBtn;
+            } else {
+              animate();
+            }
             yesClickCount++;
           } else {
+            stopAnimation();
             questionContainer.style.display = "none";
             successContainer.style.display = "block";
             successContainer.style.zIndex = 1;
@@ -444,6 +506,7 @@
       });
 
       replayBtn.addEventListener("click", () => {
+        stopAnimation();
         questionContainer.style.display = "block";
         successContainer.style.display = "none";
         successContainer.style.zIndex = 1;
@@ -458,6 +521,7 @@
         noBtn.style.display = "";
         yesBtn.style.top = "";
         yesBtn.style.left = "";
+        yesBtn.style.transform = "";
         arrow.style.top = "";
         noClickCount = 0;
         yesClickCount = 0;
@@ -472,6 +536,16 @@
         } else {
           document.querySelector(".song").play(); // Optionally resume when the page is active again
         }
+      });
+
+      window.addEventListener("resize", () => {
+        const windowWidth = window.innerWidth;
+        const windowHeight = window.innerHeight;
+        const dvdRect = yesBtn.getBoundingClientRect();
+
+        // Keep DVD within bounds after resize
+        x = Math.min(x, windowWidth - dvdRect.width);
+        y = Math.min(y, windowHeight - dvdRect.height);
       });
     </script>
   </body>
